@@ -1,0 +1,21 @@
+idol-forge-neo is licensed under the GNU Affero General Public License v3.0 (LICENSE).
+
+forge_idol/native/layers.py, denoiser.py, decoder.py and birefnet.py, and forge_idol/preprocess.py, gaussian.py and
+camera.py, are adapted from the Idol SDK (https://github.com/speridlabs/idol-sdk), Copyright Speridlabs, licensed under
+the Apache License 2.0 (LICENSE-APACHE). The denoiser notes that it adapts HuggingFace Diffusers' Wan transformer,
+Copyright 2025 The Wan Team and The HuggingFace Team, also under the Apache License 2.0.
+
+Changes from the Idol SDK: the TensorDict and plyfile dependencies are removed, every Forge Neo layer casts its weights
+to the type of its input, and the attention always uses PyTorch's scaled dot product attention.
+
+forge_idol/native/turbo.py applies the phase LoRAs of speridlabs/idol-turbo (Apache License 2.0), following its turbo.py.
+
+forge_idol/spz.py writes the SPZ format by Niantic Labs (https://github.com/nianticlabs/spz, MIT License), following its
+load-spz.cc.
+
+forge_idol/mesh.py is adapted from ComfyUI's comfy_extras/nodes_gaussian_splat.py (https://github.com/Comfy-Org/ComfyUI),
+licensed under the GNU General Public License v3.0, which the GNU Affero General Public License v3.0 may be combined with.
+Changes: the density is evened out, closed and filled into a solid before the surface is extracted, thin Gaussians get a
+minimum thickness, and the GPU paths and progress reporting are gone.
+
+The structure of the Forge Neo integration follows minimax-h3-forge-neo by the same author.

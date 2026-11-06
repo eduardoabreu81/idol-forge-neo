@@ -1,0 +1,11 @@
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "PLW1510", "RUF059"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*.py" = ["E402"]
+"tools/*.py" = ["E402"]
+# adapted from the Idol SDK, kept as it came
+"forge_idol/native/birefnet.py" = ["F821", "RUF059"]

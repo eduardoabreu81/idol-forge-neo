@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# the GitHub wiki is a repository of its own
+wiki/

@@ -1,0 +1,7 @@
+{
+  "_class_name": "IdolPipeline",
+  "_diffusers_version": "0.37.0",
+  "text_encoder": ["transformers", "DINOv3ViTModel"],
+  "transformer": ["diffusers", "IdolDenoiser"],
+  "vae": ["diffusers", "AutoencoderIdol"]
+}
