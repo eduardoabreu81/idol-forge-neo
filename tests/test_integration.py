@@ -69,6 +69,25 @@ def test_patches_leave_other_models_to_forge(forge):
     assert model_list.BASE is not None
 
 
+def test_replace_state_dict_takes_both_forge_signatures(forge):
+    from backend import loader
+
+    from forge_idol.native import model, patches
+
+    calls = []
+    loader.replace_state_dict = lambda *args: calls.append(args) or "forge"
+    patches._hook_replace_state_dict()
+    guess = model.Idol()
+    dinov3 = {"embeddings.cls_token": 5, "layer.0.attention.q_proj.weight": 6}
+    for extra in ((), ({"general.architecture": "x"},)):
+        other = object()
+        assert loader.replace_state_dict({}, {}, *extra, other, "file") == "forge"
+        assert calls.pop() == ({}, {}, *extra, other, "file")
+        sd = loader.replace_state_dict({}, dinov3, *extra, guess, "dinov3")
+        assert sd == {"text_encoders.dinov3.embeddings.cls_token": 5, "text_encoders.dinov3.layer.0.attention.q_proj.weight": 6}
+    assert not calls
+
+
 def test_files_land_where_the_engine_reads_them(forge):
     from backend import loader
 

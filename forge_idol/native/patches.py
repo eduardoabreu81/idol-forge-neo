@@ -85,9 +85,11 @@ def _hook_detection() -> None:
 def _hook_replace_state_dict() -> None:
     original = loader.replace_state_dict
 
-    def replace_state_dict(sd: dict, asd: dict, guess, path):
+    def replace_state_dict(sd: dict, asd: dict, *rest):
+        # Forge Neo calls (sd, asd, guess, path), and (sd, asd, metadata, guess, path) once its GGUF update lands
+        guess = rest[-2]
         if not isinstance(guess, model.Idol):
-            return original(sd, asd, guess, path)
+            return original(sd, asd, *rest)
         role = role_of(asd)
         if role == "dinov3":
             _replace(sd, f"{guess.text_encoder_key_prefix[0]}dinov3.", asd)
@@ -98,7 +100,7 @@ def _hook_replace_state_dict() -> None:
         elif role in ("octree", "gs"):
             _replace(sd, f"{guess.vae_key_prefix[0]}decoders.{role}.", asd)
         else:
-            return original(sd, asd, guess, path)
+            return original(sd, asd, *rest)
         return sd
 
     loader.replace_state_dict = replace_state_dict
