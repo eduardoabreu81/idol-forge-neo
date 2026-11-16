@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/banner.jpg" alt="Idol for Forge Neo banner"/>
+</p>
+
 # 🗿 Idol for Forge Neo
 
 <div align="center">
